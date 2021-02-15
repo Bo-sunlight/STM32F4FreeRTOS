@@ -5,16 +5,19 @@
 //任务句柄
 TaskHandle_t StartTask_Handler;
 TaskHandle_t LED0Task_Handler;
+TaskHandle_t LED1Task_Handler;
 TaskHandle_t KEYTask_Handler;
 TaskHandle_t ADCask_Handler;
 TaskHandle_t LCDask_Handler;
 TaskHandle_t CPUask_Handler;
 EventGroupHandle_t xCreatedEventGroup = NULL;
 QueueHandle_t xQueue1 = NULL;
+SemaphoreHandle_t  xSemaphore = NULL;
 
 //任务函数
 void start_task(void *pvParameters);
 void led0_task(void *pvParameters);
+void led1_task(void *pvParameters);
 void KEY_task(void *pvParameters);
 void ADC_task(void *pvParameters);
 void LCD_task(void *pvParameters);
@@ -69,7 +72,17 @@ static void AppTaskCreate (void)
                 (uint16_t       )512, 
                 (void*          )NULL,				
                 (UBaseType_t    )1,	
-                (TaskHandle_t*  )&LED0Task_Handler);   
+                (TaskHandle_t*  )&LED0Task_Handler);  
+
+     
+    //创建LED1任务
+    xTaskCreate((TaskFunction_t )led1_task,     	
+                (const char*    )"led1_task",   	
+                (uint16_t       )512, 
+                (void*          )NULL,				
+                (UBaseType_t    )1,	
+                (TaskHandle_t*  )&LED1Task_Handler);   								
+								
     //创建KEY任务
     xTaskCreate((TaskFunction_t )KEY_task,     
                 (const char*    )"KEY_task",   
@@ -125,6 +138,23 @@ void led0_task(void *pvParameters)
     }
 }   
 
+
+//LED0任务函数 
+void led1_task(void *pvParameters)
+{
+		BaseType_t xResult;
+	const TickType_t xMaxBlockTime = pdMS_TO_TICKS(300); /* 设置最大等待时间为300ms */
+	while(1)
+	{
+		xResult = xSemaphoreTake(xSemaphore, (TickType_t)xMaxBlockTime);
+		if(xResult == pdTRUE)
+		{
+			/* 接收到同步信号 */
+          LED0 = !LED0;
+		}
+	}
+	
+}
 //key任务函数
 void KEY_task(void *pvParameters)
 {
@@ -221,6 +251,14 @@ static void AppObjCreate (void)
 			/* 创建10个uint8_t型消息队列 */
 	xQueue1 = xQueueCreate(10, sizeof(uint32_t));
     if( xQueue1 == 0 )
+    {
+        /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
+    }
+		
+			/* 创建二值信号量，首次创建信号量计数值是0 */
+	xSemaphore = xSemaphoreCreateBinary();
+	
+	if(xSemaphore == NULL)
     {
         /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
     }

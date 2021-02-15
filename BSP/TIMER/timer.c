@@ -87,6 +87,7 @@ void TIM3_IRQHandler(void)
 }
 extern EventGroupHandle_t xCreatedEventGroup ;
 extern QueueHandle_t xQueue1 ;
+extern SemaphoreHandle_t  xSemaphore;
 //定时器3中断服务函数
 void TIM4_IRQHandler(void)
 {
@@ -107,6 +108,9 @@ void TIM4_IRQHandler(void)
 	xQueueSendFromISR(xQueue1,
 				      (void *)&g_uiCount,
 				      &xHigherPriorityTaskWoken);
+							
+	 /* 发送同步信号 */
+	xSemaphoreGiveFromISR(xSemaphore, &xHigherPriorityTaskWoken);			
 							
 	 /* 消息被成功发出 */
 	if( xResult != pdFAIL )

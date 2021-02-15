@@ -19,6 +19,6 @@ void bsp_Init(void)
 	LCD_ShowString(30,130,200,16,16,"ADC1_CH5_VAL:");	      
 	LCD_ShowString(30,150,200,16,16,"ADC1_CH5_VOL:0.000V");	//先在固定位置显示小数点      
 	TIM3_Int_Init(50-1,84-1);
-	TIM4_Int_Init(4200-1,20000-1);
+	TIM4_Int_Init(8400-1,10000-1);
 }
 
