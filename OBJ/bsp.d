@@ -56,6 +56,8 @@
 ..\obj\bsp.o: ..\FreeRTOS\include\mpu_wrappers.h
 ..\obj\bsp.o: ..\FreeRTOS\include\task.h
 ..\obj\bsp.o: ..\FreeRTOS\include\list.h
+..\obj\bsp.o: ..\FreeRTOS\include\croutine.h
+..\obj\bsp.o: ..\FreeRTOS\include\list.h
 ..\obj\bsp.o: ..\FreeRTOS\include\queue.h
 ..\obj\bsp.o: ..\FreeRTOS\include\event_groups.h
 ..\obj\bsp.o: ..\FreeRTOS\include\timers.h

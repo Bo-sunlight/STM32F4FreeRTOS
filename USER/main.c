@@ -10,6 +10,7 @@ TaskHandle_t ADCask_Handler;
 TaskHandle_t LCDask_Handler;
 TaskHandle_t CPUask_Handler;
 EventGroupHandle_t xCreatedEventGroup = NULL;
+QueueHandle_t xQueue1 = NULL;
 
 //任务函数
 void start_task(void *pvParameters);
@@ -21,6 +22,8 @@ void CPU_task(void *pvParameters);
 
 static void AppTaskCreate (void);
 static void AppObjCreate (void);
+
+
 
 u16 adcx;
 float temp;
@@ -126,9 +129,24 @@ void led0_task(void *pvParameters)
 void KEY_task(void *pvParameters)
 {
 	  u8 key ;
+		BaseType_t xResult;
+	const TickType_t xMaxBlockTime = pdMS_TO_TICKS(1000); /* 设置最大等待时间为300ms */
+	uint32_t ucQueueMsgValue;
     while(1)
     {
-		   	key=KEY_Scan(0);
+//		   	key=KEY_Scan(0);
+			xResult = xQueueReceive(xQueue1,                   /* 消息队列句柄 */
+		                        (void *)&ucQueueMsgValue,  /* 存储接收到的数据到变量ucQueueMsgValue中 */
+		                        (TickType_t)xMaxBlockTime);/* 设置阻塞时间 */
+		
+		if(xResult == pdPASS)
+		{
+			/* 成功接收，并通过串口将数据打印出来 */
+			printf("接收到消息队列数据ucQueueMsgValue = %d\r\n", ucQueueMsgValue);
+		}
+		else 
+		  printf("失败");
+			
         vTaskDelay(10);
     }
 }
@@ -196,6 +214,13 @@ static void AppObjCreate (void)
 	xCreatedEventGroup = xEventGroupCreate();
 	
 	if(xCreatedEventGroup == NULL)
+    {
+        /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
+    }
+		
+			/* 创建10个uint8_t型消息队列 */
+	xQueue1 = xQueueCreate(10, sizeof(uint32_t));
+    if( xQueue1 == 0 )
     {
         /* 没有创建成功，用户可以在这里加入创建失败的处理机制 */
     }

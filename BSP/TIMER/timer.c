@@ -86,24 +86,35 @@ void TIM3_IRQHandler(void)
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
 }
 extern EventGroupHandle_t xCreatedEventGroup ;
-
+extern QueueHandle_t xQueue1 ;
 //定时器3中断服务函数
 void TIM4_IRQHandler(void)
 {
 	BaseType_t xResult;
 	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	static uint32_t g_uiCount = 299; /* 设置为全局静态变量，方便数据更新 */
+
+	
 	if(TIM_GetITStatus(TIM4,TIM_IT_Update)==SET) //溢出中断
 	{
 			/* 向任务vTaskMsgPro发送事件标志 */
 	xResult = xEventGroupSetBitsFromISR(xCreatedEventGroup, /* 事件标志组句柄 */
 									    (1 << 0) ,             /* 设置bit0 */
 									    &xHigherPriorityTaskWoken );
-		/* 消息被成功发出 */
+		g_uiCount++;
+	
+		/* 向消息队列发数据 */
+	xQueueSendFromISR(xQueue1,
+				      (void *)&g_uiCount,
+				      &xHigherPriorityTaskWoken);
+							
+	 /* 消息被成功发出 */
 	if( xResult != pdFAIL )
 	{
 		/* 如果xHigherPriorityTaskWoken = pdTRUE，那么退出中断后切到当前最高优先级任务执行 */
 		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
 	}
+	
 	}
 	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //清除中断标志位
 }
