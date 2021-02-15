@@ -1,8 +1,5 @@
 #include "timer.h"
-#include "led.h"
-#include "FreeRTOS.h"
-#include "task.h"
-#include "queue.h"
+#include "includes.h"
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK STM32F407开发板
@@ -41,15 +38,42 @@ void TIM3_Int_Init(u16 arr,u16 psc)
 	TIM_Cmd(TIM3,ENABLE); //使能定时器3
 	
 	NVIC_InitStructure.NVIC_IRQChannel=TIM3_IRQn; //定时器3中断
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x02; //抢占优先级1
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00; //子优先级3
+	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
+	NVIC_Init(&NVIC_InitStructure);
+}
+
+//通用定时器3中断初始化
+//arr：自动重装值。
+//psc：时钟预分频数
+//定时器溢出时间计算方法:Tout=((arr+1)*(psc+1))/Ft us.
+//Ft=定时器工作频率,单位:Mhz
+//这里使用的是定时器4!
+void TIM4_Int_Init(u16 arr,u16 psc)
+{
+	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;
+	NVIC_InitTypeDef NVIC_InitStructure;
+	
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM4,ENABLE);  ///使能TIM3时钟
+	
+  TIM_TimeBaseInitStructure.TIM_Period = arr; 	//自动重装载值
+	TIM_TimeBaseInitStructure.TIM_Prescaler=psc;  //定时器分频
+	TIM_TimeBaseInitStructure.TIM_CounterMode=TIM_CounterMode_Up; //向上计数模式
+	TIM_TimeBaseInitStructure.TIM_ClockDivision=TIM_CKD_DIV1; 
+	
+	TIM_TimeBaseInit(TIM4,&TIM_TimeBaseInitStructure);//初始化TIM3
+	
+	TIM_ITConfig(TIM4,TIM_IT_Update,ENABLE); //允许定时器3更新中断
+	TIM_Cmd(TIM4,ENABLE); //使能定时器4
+	
+	NVIC_InitStructure.NVIC_IRQChannel=TIM4_IRQn; //定时器3中断
 	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority=0x01; //抢占优先级1
 	NVIC_InitStructure.NVIC_IRQChannelSubPriority=0x00; //子优先级3
 	NVIC_InitStructure.NVIC_IRQChannelCmd=ENABLE;
 	NVIC_Init(&NVIC_InitStructure);
-	
 }
-extern QueueHandle_t  Message_Queue;	//信息队列句柄
-	u8 i=1,j;
-	BaseType_t htss = 0;
+
 //定时器3中断服务函数
 volatile uint32_t CPU_RunTime = 0UL;
 void TIM3_IRQHandler(void)
@@ -57,9 +81,29 @@ void TIM3_IRQHandler(void)
 
 	if(TIM_GetITStatus(TIM3,TIM_IT_Update)==SET) //溢出中断
 	{
-//		if(Message_Queue!=NULL)
-//      xQueueOverwriteFromISR(Message_Queue,&i,&htss);
 		CPU_RunTime++;
 	}
 	TIM_ClearITPendingBit(TIM3,TIM_IT_Update);  //清除中断标志位
+}
+extern EventGroupHandle_t xCreatedEventGroup ;
+
+//定时器3中断服务函数
+void TIM4_IRQHandler(void)
+{
+	BaseType_t xResult;
+	BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+	if(TIM_GetITStatus(TIM4,TIM_IT_Update)==SET) //溢出中断
+	{
+			/* 向任务vTaskMsgPro发送事件标志 */
+	xResult = xEventGroupSetBitsFromISR(xCreatedEventGroup, /* 事件标志组句柄 */
+									    (1 << 0) ,             /* 设置bit0 */
+									    &xHigherPriorityTaskWoken );
+		/* 消息被成功发出 */
+	if( xResult != pdFAIL )
+	{
+		/* 如果xHigherPriorityTaskWoken = pdTRUE，那么退出中断后切到当前最高优先级任务执行 */
+		portYIELD_FROM_ISR(xHigherPriorityTaskWoken);
+	}
+	}
+	TIM_ClearITPendingBit(TIM4,TIM_IT_Update);  //清除中断标志位
 }

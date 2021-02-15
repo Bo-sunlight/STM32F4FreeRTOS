@@ -55,6 +55,8 @@
 ..\obj\main.o: ..\FreeRTOS\include\task.h
 ..\obj\main.o: ..\FreeRTOS\include\list.h
 ..\obj\main.o: ..\FreeRTOS\include\queue.h
+..\obj\main.o: ..\FreeRTOS\include\event_groups.h
+..\obj\main.o: ..\FreeRTOS\include\timers.h
 ..\obj\main.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\stdarg.h
 ..\obj\main.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\math.h
 ..\obj\main.o: ..\SYSTEM\delay\delay.h

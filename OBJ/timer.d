@@ -36,7 +36,12 @@
 ..\obj\timer.o: ..\FWLIB\inc\stm32f4xx_dac.h
 ..\obj\timer.o: ..\FWLIB\inc\stm32f4xx_dcmi.h
 ..\obj\timer.o: ..\FWLIB\inc\stm32f4xx_fsmc.h
+..\obj\timer.o: ..\USER\includes.h
 ..\obj\timer.o: ..\BSP\LED\led.h
+..\obj\timer.o: ..\BSP\KEY\key.h
+..\obj\timer.o: ..\BSP\LCD\lcd.h
+..\obj\timer.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\stdlib.h
+..\obj\timer.o: ..\BSP\ADC\adc.h
 ..\obj\timer.o: ..\FreeRTOS\include\FreeRTOS.h
 ..\obj\timer.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\timer.o: ..\FreeRTOS\include\FreeRTOSConfig.h
@@ -50,3 +55,11 @@
 ..\obj\timer.o: ..\FreeRTOS\include\task.h
 ..\obj\timer.o: ..\FreeRTOS\include\list.h
 ..\obj\timer.o: ..\FreeRTOS\include\queue.h
+..\obj\timer.o: ..\FreeRTOS\include\event_groups.h
+..\obj\timer.o: ..\FreeRTOS\include\timers.h
+..\obj\timer.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\stdarg.h
+..\obj\timer.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\math.h
+..\obj\timer.o: ..\SYSTEM\delay\delay.h
+..\obj\timer.o: ..\FreeRTOS\include\semphr.h
+..\obj\timer.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\string.h
+..\obj\timer.o: ..\BSP\bsp\bsp.h
