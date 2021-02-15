@@ -1,13 +1,14 @@
---cpu Cortex-M4.fp
+--cpu=Cortex-M4.fp.sp
 "..\obj\main.o"
 "..\obj\stm32f4xx_it.o"
 "..\obj\system_stm32f4xx.o"
+"..\obj\adc.o"
+"..\obj\beep.o"
+"..\obj\bsp.o"
+"..\obj\key.o"
+"..\obj\lcd.o"
 "..\obj\led.o"
 "..\obj\timer.o"
-"..\obj\key.o"
-"..\obj\beep.o"
-"..\obj\adc.o"
-"..\obj\lcd.o"
 "..\obj\delay.o"
 "..\obj\sys.o"
 "..\obj\usart.o"
@@ -28,7 +29,8 @@
 "..\obj\timers.o"
 "..\obj\port.o"
 "..\obj\heap_4.o"
+"..\DSP_LIB\arm_cortexM4lf_math.lib"
 --strict --scatter "..\OBJ\LED.sct"
---summary_stderr --info summarysizes --map --xref --callgraph --symbols
+--summary_stderr --info summarysizes --map --load_addr_map_info --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list "..\OBJ\LED.map" -o ..\OBJ\LED.axf

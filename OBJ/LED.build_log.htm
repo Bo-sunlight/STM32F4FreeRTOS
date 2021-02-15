@@ -3,51 +3,51 @@
 <pre>
 <h1>µVision Build Log</h1>
 <h2>Tool Versions:</h2>
-IDE-Version: ¦ÌVision V5.14.0.0
-Copyright (C) 2015 ARM Ltd and ARM Germany GmbH. All rights reserved.
-License Information: Â¬Ïþ²¨ 8617776, HP Inc., LIC=IK1VE-53EIF-BQK0K-ZCMB4-IDFAE-NSKHH
+IDE-Version: ¦ÌVision V5.33.0.0
+Copyright (C) 2020 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: 1 1, 1, LIC=1WSAR-KIHZ0-RDWK3-AU7TT-RH7ED-RI8KP
  
 Tool Versions:
-Toolchain:       MDK-ARM Standard  Version: 5.14.0.0
-Toolchain Path:  C:\Keil_v5\ARM\ARMCC\Bin
-C Compiler:      Armcc.exe V5.05 update 1 (build 106)
-Assembler:       Armasm.exe V5.05 update 1 (build 106)
-Linker/Locator:  ArmLink.exe V5.05 update 1 (build 106)
-Library Manager: ArmAr.exe V5.05 update 1 (build 106)
-Hex Converter:   FromElf.exe V5.05 update 1 (build 106)
-CPU DLL:         SARMCM3.DLL V5.14.0.0
-Dialog DLL:      DCM.DLL V1.13.1.0
-Target DLL:      Segger\JL2CM3.dll V2.99.13.0
-Dialog DLL:      TCM.DLL V1.14.4.0
+Toolchain:       MDK-ARM Professional  Version: 5.33.0.0
+Toolchain Path:  C:\Keil5_MDK\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 7 (build 960)
+Assembler:       Armasm.exe V5.06 update 7 (build 960)
+Linker/Locator:  ArmLink.exe V5.06 update 7 (build 960)
+Library Manager: ArmAr.exe V5.06 update 7 (build 960)
+Hex Converter:   FromElf.exe V5.06 update 7 (build 960)
+CPU DLL:         SARMCM3.DLL V5.33.0.0
+Dialog DLL:      DCM.DLL V1.17.3.0
+Target DLL:      Segger\JL2CM3.dll V2.99.38.0
+Dialog DLL:      TCM.DLL V1.48.0.0
  
 <h2>Project:</h2>
 C:\Users\86177\Desktop\FreeRTOS\USER\FreeRTOS.uvprojx
-Project File Date:  02/05/2021
+Project File Date:  02/14/2021
 
 <h2>Output:</h2>
+*** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil5_MDK\ARM\ARMCC\Bin'
 Build target 'FreeRTOS'
 compiling main.c...
-compiling timer.c...
-compiling delay.c...
-compiling usart.c...
-compiling croutine.c...
-compiling event_groups.c...
-compiling list.c...
-compiling queue.c...
-compiling tasks.c...
-compiling timers.c...
-compiling port.c...
-compiling heap_4.c...
+main.c(108): warning:  #550-D: variable "key"  was set but never used
+  	u8 key ;
+main.c: 1 warning, 0 errors
 linking...
-Program Size: Code=31360 RO-data=6544 RW-data=220 ZI-data=23172  
+Program Size: Code=36290 RO-data=6934 RW-data=212 ZI-data=23172  
 FromELF: creating hex file...
-"..\OBJ\LED.axf" - 0 Error(s), 0 Warning(s).
+"..\OBJ\LED.axf" - 0 Error(s), 1 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: Keil
+                http://www.keil.com/pack/Keil.STM32F4xx_DFP.1.0.8.pack
+                Keil.STM32F4xx_DFP.1.0.8
+                STMicroelectronics STM32F4 Series Device Support, Drivers and Examples
 
 <h2>Collection of Component include folders:</h2>
-  C:\Users\86177\Desktop\FreeRTOS\USER\RTE
-  C:\Keil_v5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include
+  C:\Users\86177\AppData\Local\Arm\Packs\Keil\STM32F4xx_DFP\1.0.8\Device\Include
 
 <h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

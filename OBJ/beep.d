@@ -1,9 +1,9 @@
-..\obj\beep.o: ..\HARDWARE\BEEP\beep.c
-..\obj\beep.o: ..\HARDWARE\BEEP\beep.h
+..\obj\beep.o: ..\BSP\BEEP\beep.c
+..\obj\beep.o: ..\BSP\BEEP\beep.h
 ..\obj\beep.o: ..\SYSTEM\sys\sys.h
 ..\obj\beep.o: ..\USER\stm32f4xx.h
 ..\obj\beep.o: ..\CORE\core_cm4.h
-..\obj\beep.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+..\obj\beep.o: C:\Keil5_MDK\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\beep.o: ..\CORE\core_cmInstr.h
 ..\obj\beep.o: ..\CORE\core_cmFunc.h
 ..\obj\beep.o: ..\CORE\core_cm4_simd.h
